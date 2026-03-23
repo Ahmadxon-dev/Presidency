@@ -1,0 +1,10 @@
+User-agent: *          # Applies to all search engine bots
+Allow: /               # Allow crawling of all public pages
+
+Disallow: /signin      # Block login page from indexing
+Disallow: /profile     # Block user profiles from indexing
+Disallow: /settings    # Block user settings page
+Disallow: /transactions # Block transactions page
+
+# Sitemap location for search engines
+Sitemap: https://new-physics.eco-uzbekistan.uz/sitemap.xml

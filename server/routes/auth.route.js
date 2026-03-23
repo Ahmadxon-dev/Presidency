@@ -1,0 +1,23 @@
+const express = require("express")
+const router = express.Router()
+const authController = require("../controllers/auth.controller")
+const verifyToken = require("../middleware/checkToken.middleware")
+
+router.post("/register/user", authController.registerUser)
+router.post("/register/admin", authController.registerAdmin)
+router.get("/admin/all", authController.getAdmins)
+router.delete("/admin/delete/:id", authController.deleteAdmin)
+router.patch("/admin/edit", authController.editAdmin )
+router.post("/signin/all", authController.signIn)
+router.delete("/delete/student/:studentId/:classId", authController.deleteUser)
+router.patch("/edit/name", authController.editUserFullName)
+router.patch("/edit/password", authController.editUserPassword)
+router.patch("/edit/class/password", authController.editClassPassword)
+router.patch("/set/password", authController.setUserPasswordCustom)
+router.get("/profile", verifyToken, authController.getProfile)
+router.patch("/admin/user/edit", authController.editUserForAdmin)
+router.get("/get/coins/:id", authController.getUserCoins)
+// router.get('/get/students', authController.getStudents)
+// router.get('/get/all-users', authController.getAllUsers)
+
+module.exports = router
