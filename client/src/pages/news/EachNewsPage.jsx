@@ -1,10 +1,10 @@
-import React from 'react'
+import React, { memo } from 'react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card'
 import { ArrowLeft } from 'lucide-react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
-import { fetchEachNews } from './../../api/news'
+import { fetchEachNews } from '@/api/news'
 const EachNewsPage = () => {
     const { id } = useParams()
     const navigate = useNavigate()
@@ -83,4 +83,4 @@ const EachNewsPage = () => {
     )
 }
 
-export default EachNewsPage
+export default memo(EachNewsPage)

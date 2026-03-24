@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { memo, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -295,4 +295,4 @@ const FootballCourtPage = ({ user }) => {
     )
 }
 
-export default FootballCourtPage
+export default memo(FootballCourtPage)

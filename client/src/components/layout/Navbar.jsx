@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { memo, useState } from 'react'
 import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
@@ -14,9 +14,9 @@ import { useDispatch, useSelector } from 'react-redux'
 import { logout as logoutAction } from '../../features/auth/authSlice'
 
 // ✅ ForwardRef wrapper for React Router Link
-const LinkWithRef = React.forwardRef(({ to, ...props }, ref) => (
+const LinkWithRef = memo(React.forwardRef(({ to, ...props }, ref) => (
   <RouterLink ref={ref} to={to} {...props} />
-))
+)))
 LinkWithRef.displayName = 'LinkWithRef'
 
 const Navbar = () => {
