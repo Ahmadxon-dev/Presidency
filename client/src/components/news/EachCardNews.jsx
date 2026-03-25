@@ -2,11 +2,23 @@ import { Card, CardHeader, CardContent, CardTitle, CardDescription, CardFooter }
 import { Button } from "@/components/ui/button"
 import { Trash2 } from "lucide-react"
 import { useNavigate } from "react-router-dom"
-import { memo } from "react"
+import { memo, useCallback } from "react"
 const EachCardNews = ({ item, userRole, onDelete, deleteButtonId }) => {
     const navigate = useNavigate()
+    const handleNavigate = useCallback(() => {
+        navigate(item._id)
+    }, [navigate, item._id])
+
+    const handleOnDelete = useCallback(
+        (e) => {
+            e.stopPropagation()
+            onDelete(e, item)
+        },
+        [item, onDelete]
+    )
+
     return (
-        <Card key={item._id} className="flex flex-col cursor-pointer" onClick={() => navigate(item._id)}>
+        <Card key={item._id} className="flex flex-col cursor-pointer" onClick={handleNavigate}>
             <CardHeader className="p-0">
                 {item.img && (
                     // eslint-disable-next-line react/no-unknown-property
@@ -32,7 +44,7 @@ const EachCardNews = ({ item, userRole, onDelete, deleteButtonId }) => {
                         variant="destructive"
                         size="sm"
                         className="flex-1"
-                        onClick={(e) => onDelete(e, item)}
+                        onClick={handleOnDelete}
                         disabled={deleteButtonId === String(item._id)}
                     >
                         <Trash2 className="mr-2 h-4 w-4" />

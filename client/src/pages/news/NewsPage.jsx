@@ -1,38 +1,29 @@
-import { useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
-import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
-import { Skeleton } from "@/components/ui/skeleton"
-import { Plus } from "lucide-react"
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
-import toast from "react-hot-toast"
+import { useCallback, useState } from "react"
+import { useQuery } from "@tanstack/react-query"
 import { useSelector } from "react-redux"
-import { createNews, deletingNews, fetchNewsData } from "@/api/news"
-import NewsEmptyState from "../../components/news/NewsEmptyState"
-import EachCardNews from "../../components/news/EachCardNews"
+import { fetchNewsData } from "@/api/news"
+import NewsEmptyState from "@/components/news/NewsEmptyState"
+import EachCardNews from "@/components/news/EachCardNews"
 import useNewsMutations from "@/hooks/useNewsMutations"
 import NewsDialog from "@/components/news/NewsDialog"
 import NewsLoader from "@/components/news/NewsLoader"
 
 const NewsPage = () => {
     const user = useSelector((state) => state.auth.user)
-    const { data: allNews, isPending } = useQuery({ queryKey: ["news"], queryFn: fetchNewsData })
+    const { data: allNews = [], isPending } = useQuery({ queryKey: ["news"], queryFn: fetchNewsData })
     const [deleteButtonId, setDeleteButtonId] = useState("")
-    
+
     const { deleteNews } = useNewsMutations()
 
-    const handleOnDelete = (e, item) => {
+    const handleOnDelete = useCallback((e, item) => {
         e.stopPropagation()
         if (window.confirm("Buni aniq o'chirmoqchimisiz?")) {
             deleteNews({ id: item._id })
             setDeleteButtonId(item._id)
         }
-    }
+    }, [])
     if (isPending) <NewsLoader />
-    
+
     return (
         <div className="min-h-screen bg-background">
             <div className="container mx-auto px-4 py-8">
@@ -41,9 +32,7 @@ const NewsPage = () => {
                     <div>
                         <h1 className="text-4xl font-bold text-foreground mb-2">Yangiliklar</h1>
                     </div>
-                    {user.role === "admin" && (
-                        <NewsDialog />
-                    )}
+                    {user.role === "admin" && <NewsDialog />}
                 </div>
 
                 {/* News Grid */}

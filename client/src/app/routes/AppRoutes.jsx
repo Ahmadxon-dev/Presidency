@@ -3,7 +3,7 @@ import { lazy, Suspense } from "react"
 import { Routes, Route, useLocation } from "react-router-dom"
 import Loader from "@/components/shared/Loader"
 import ProtectedRouter from "@/components/shared/ProtectedRouter.jsx"
-import Navbar from "@/components/layout/Navbar.jsx"
+import Navbar from "@/components/layout/Navbar/Navbar.jsx"
 
 const HeroComponent = lazy(() => import("../../components/layout/Hero.jsx"))
 const LoginPage = lazy(() => import("../../pages/auth/LoginPage.jsx"))
@@ -28,7 +28,7 @@ const AppRoutes = () => {
 
     return (
         <div className="flex flex-col ">
-            { !hideNavbar && <Navbar />}
+            {!hideNavbar && <Navbar />}
             <div className=" transition-all duration-300">
                 <Suspense fallback={<Loader />}>
                     <Routes>
