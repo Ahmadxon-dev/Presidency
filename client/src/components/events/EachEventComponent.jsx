@@ -1,18 +1,20 @@
-
-import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card';
-import { GraduationCap, Users, Calendar, Trash2 } from 'lucide-react';
-import formatUzDate from '@/utils/formatDate';
-import { Button } from '@/components/ui/button';
-import { memo, useCallback, useState } from 'react';
-import useEventMutations from '@/hooks/useEventMutations';
-const EachEventComponent = ({event, userRole, userId, navigate}) => {
+import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card"
+import { GraduationCap, Users, Calendar, Trash2 } from "lucide-react"
+import formatUzDate from "@/utils/formatDate"
+import { Button } from "@/components/ui/button"
+import { memo, useCallback, useState } from "react"
+import useEventMutations from "@/hooks/useEventMutations"
+const EachEventComponent = ({ event, userRole, userId, navigate }) => {
     const [deleteButtonId, setDeleteButtonId] = useState("")
 
     const { deleteEvents, mutationRegisterClass, registerClassPending, mutationRegisterStudent, registerStudentPending } = useEventMutations()
 
-    const handleNavigate = useCallback((id) => {
-        navigate(id)
-    }, [navigate])
+    const handleNavigate = useCallback(
+        (id) => {
+            navigate(id)
+        },
+        [navigate]
+    )
     return (
         <Card
             key={event._id}
@@ -99,7 +101,7 @@ const EachEventComponent = ({event, userRole, userId, navigate}) => {
                                 onClick={(e) => {
                                     e.stopPropagation()
                                     if (userRole === "class") {
-                                        mutationRegisterClass({ eventId: event._id, classId: userId})
+                                        mutationRegisterClass({ eventId: event._id, classId: userId })
                                     }
                                     if (userRole === "student") {
                                         mutationRegisterStudent({

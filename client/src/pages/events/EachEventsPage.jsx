@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
@@ -216,4 +216,4 @@ const EachEventsPage = () => {
     )
 }
 
-export default EachEventsPage
+export default memo(EachEventsPage)
