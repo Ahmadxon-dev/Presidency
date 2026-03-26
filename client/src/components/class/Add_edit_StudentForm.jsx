@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input"
 import { toast } from "react-hot-toast"
 import { X } from "lucide-react"
 import useClass_StudentMutations from '@/hooks/useClass_StudentMutations';
+import { memo } from "react"
 const Add_edit_StudentForm = ({ editingStudent, setShowStudentForm, setSelectedClass, setEditingStudent, setStudentFormData, studentFormData, selectedClass }) => {
     const { createStudentMutation , editStudentMutation} = useClass_StudentMutations()
     
@@ -176,4 +177,4 @@ const Add_edit_StudentForm = ({ editingStudent, setShowStudentForm, setSelectedC
     )
 }
 
-export default Add_edit_StudentForm
+export default memo(Add_edit_StudentForm)

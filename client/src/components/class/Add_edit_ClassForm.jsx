@@ -4,6 +4,7 @@ import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import { toast } from "react-hot-toast"
 import useClass_StudentMutations from "@/hooks/useClass_StudentMutations"
+import { memo } from "react"
 
 const Add_edit_ClassForm = ({ setShowClassForm, classFormData, setClassFormData, setEditingClass, editingClass }) => {
     const { createClassMutation, editClassMutation } = useClass_StudentMutations()
@@ -140,4 +141,4 @@ const Add_edit_ClassForm = ({ setShowClassForm, classFormData, setClassFormData,
     )
 }
 
-export default Add_edit_ClassForm
+export default memo(Add_edit_ClassForm)

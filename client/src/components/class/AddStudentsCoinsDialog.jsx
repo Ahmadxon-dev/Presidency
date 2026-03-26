@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { toast } from 'react-hot-toast';
-import { useState } from 'react';
+import { memo, useState } from 'react';
 import { X } from 'lucide-react';
 import useClass_StudentMutations from '@/hooks/useClass_StudentMutations';
 const AddStudentsCoinsDialog = ({ setAddCoinsStudent, studentId, setSelectedClass }) => {
@@ -75,4 +75,4 @@ const AddStudentsCoinsDialog = ({ setAddCoinsStudent, studentId, setSelectedClas
   )
 }
 
-export default AddStudentsCoinsDialog
+export default memo(AddStudentsCoinsDialog)

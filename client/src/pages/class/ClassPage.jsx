@@ -1,10 +1,10 @@
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
-import { Plus, ShieldUser, Pencil, Trash2, Users, Mail, X, HandCoins, Send, Phone } from "lucide-react"
+import { Plus, ShieldUser, Pencil, Trash2, Mail, HandCoins, Send, Phone } from "lucide-react"
 import { useQuery } from "@tanstack/react-query"
 import { fetchClasses } from "../../api/class"
-import { Add_edit_ClassForm, Add_edit_StudentForm, AddClassCoinsDialog, AddStudentsCoinsDialog, ClassLoadingState } from "@/components/class"
+import { Add_edit_ClassForm, Add_edit_StudentForm, AddClassCoinsDialog, AddStudentsCoinsDialog, ClassLoadingState, EachClass } from "@/components/class"
 import useClass_StudentMutations from "@/hooks/useClass_StudentMutations"
 
 const ClassPage = () => {
@@ -33,20 +33,10 @@ const ClassPage = () => {
         tgUserName: null,
         email: null
     })
-    const { deleteStudentMutation, deleteStudentPending, deleteClassMutation, deleteClassPending } = useClass_StudentMutations()
+    const { deleteStudentMutation, deleteStudentPending, } = useClass_StudentMutations()
     const { data: classes, isPending } = useQuery({ queryKey: ["classes"], queryFn: fetchClasses })
 
-    const handleDeleteClass = (classId) => {
-        setDeleteId(classId)
-        deleteClassMutation(
-            { id: classId },
-            {
-                onSuccess: () => {
-                    setSelectedClass(null)
-                }
-            }
-        )
-    }
+    
 
     const handleDeleteStudent = (studentId) => {
         setDeleteId(studentId)
@@ -97,80 +87,7 @@ const ClassPage = () => {
                         <div className="space-y-2 max-h-[calc(100vh-300px)] overflow-y-auto pr-2 pb-5">
                             {classes.map((cls) => {
                                 const isSelected = selectedClass?._id === cls._id
-                                return (
-                                    <Card
-                                        key={cls._id}
-                                        className={`p-4 ml-2 mt-2 transition-all cursor-pointer hover:shadow-md ${
-                                            isSelected ? "ring-2 ring-primary bg-accent" : ""
-                                        }`}
-                                        onClick={() => {
-                                            setSelectedClass(cls)
-                                        }}
-                                    >
-                                        <div className="flex items-start justify-between gap-4">
-                                            <div className="flex-1 min-w-0">
-                                                <h3 className="font-semibold text-foreground truncate">{cls.className}</h3>
-                                                <p className="text-sm text-muted-foreground mt-1">{cls.teacher}</p>
-                                                <div className="flex items-center gap-4 mt-2 text-xs text-muted-foreground">
-                                                    <span className="flex items-center gap-1">
-                                                        <Users className="h-3 w-3" />
-                                                        <span className="font-semibold">
-                                                            {cls.students.length} o&apos;quvchilar (maks {cls?.numberOfStudents})
-                                                        </span>
-                                                    </span>
-                                                    <span className="flex items-center gap-1">
-                                                        <ShieldUser className="h-3 w-3" /> Login: <span className="font-semibold">{cls.login}</span>
-                                                    </span>
-                                                    <span className="flex items-center gap-1">
-                                                        <HandCoins className="h-3 w-3" />
-                                                        Ball:<span className="font-semibold">{cls.coins}</span>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                            <div className="flex gap-1">
-                                                <Button
-                                                    size="icon"
-                                                    variant="ghost"
-                                                    onClick={(e) => {
-                                                        e.stopPropagation()
-                                                        setAddCoinsClass(true)
-                                                        setClassId(cls._id)
-                                                    }}
-                                                    className="h-8 w-8 cursor-pointer"
-                                                >
-                                                    <HandCoins className="h-4 w-4" />
-                                                </Button>
-                                                <Button
-                                                    size="icon"
-                                                    variant="ghost"
-                                                    onClick={(e) => {
-                                                        e.stopPropagation()
-                                                        setEditingClass(cls)
-                                                        setClassFormData({
-                                                            className: cls.className,
-                                                            login: cls.login,
-                                                            password: "",
-                                                            numberOfStudents: cls.numberOfStudents
-                                                        })
-                                                        setShowClassForm(true)
-                                                    }}
-                                                    className="h-8 w-8 cursor-pointer"
-                                                >
-                                                    <Pencil className="h-4 w-4" />
-                                                </Button>
-                                                <Button
-                                                    size="icon"
-                                                    variant="ghost"
-                                                    onClick={() => window.confirm("Buni aniq o'chirmoqchimisiz?") && handleDeleteClass(cls._id)}
-                                                    disabled={deleteId === cls._id && deleteClassPending}
-                                                    className="h-8 w-8 text-destructive cursor-pointer hover:text-destructive"
-                                                >
-                                                    <Trash2 className="h-4 w-4" />
-                                                </Button>
-                                            </div>
-                                        </div>
-                                    </Card>
-                                )
+                                return <EachClass key={cls._id} cls={cls} setSelectedClass={setSelectedClass} setAddCoinsClass={setAddCoinsClass} setClassId={setClassId} setEditingClass={setEditingClass} setClassFormData={setClassFormData} setShowClassForm={setShowClassForm} isSelected={isSelected} />
                             })}
                         </div>
                     </div>
