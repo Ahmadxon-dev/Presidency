@@ -1,14 +1,19 @@
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
-import { Card } from "@/components/ui/card"
-import { Plus, ShieldUser, Pencil, Trash2, Mail, HandCoins, Send, Phone } from "lucide-react"
+import { Plus } from "lucide-react"
 import { useQuery } from "@tanstack/react-query"
 import { fetchClasses } from "../../api/class"
-import { Add_edit_ClassForm, Add_edit_StudentForm, AddClassCoinsDialog, AddStudentsCoinsDialog, ClassLoadingState, EachClass } from "@/components/class"
-import useClass_StudentMutations from "@/hooks/useClass_StudentMutations"
+import {
+    Add_edit_ClassForm,
+    Add_edit_StudentForm,
+    AddClassCoinsDialog,
+    AddStudentsCoinsDialog,
+    ClassLoadingState,
+    EachClass,
+    EachStudent
+} from "@/components/class"
 
 const ClassPage = () => {
-    const [deleteId, setDeleteId] = useState(null)
     const [selectedClass, setSelectedClass] = useState(null)
     const [showClassForm, setShowClassForm] = useState(false)
     const [showStudentForm, setShowStudentForm] = useState(false)
@@ -33,22 +38,8 @@ const ClassPage = () => {
         tgUserName: null,
         email: null
     })
-    const { deleteStudentMutation, deleteStudentPending, } = useClass_StudentMutations()
+
     const { data: classes, isPending } = useQuery({ queryKey: ["classes"], queryFn: fetchClasses })
-
-    
-
-    const handleDeleteStudent = (studentId) => {
-        setDeleteId(studentId)
-        deleteStudentMutation(
-            { studentId, classId: selectedClass._id },
-            {
-                onSuccess: (data) => {
-                    setSelectedClass(data.newData)
-                }
-            }
-        )
-    }
 
     if (isPending) return <ClassLoadingState />
 
@@ -87,7 +78,19 @@ const ClassPage = () => {
                         <div className="space-y-2 max-h-[calc(100vh-300px)] overflow-y-auto pr-2 pb-5">
                             {classes.map((cls) => {
                                 const isSelected = selectedClass?._id === cls._id
-                                return <EachClass key={cls._id} cls={cls} setSelectedClass={setSelectedClass} setAddCoinsClass={setAddCoinsClass} setClassId={setClassId} setEditingClass={setEditingClass} setClassFormData={setClassFormData} setShowClassForm={setShowClassForm} isSelected={isSelected} />
+                                return (
+                                    <EachClass
+                                        key={cls._id}
+                                        cls={cls}
+                                        setSelectedClass={setSelectedClass}
+                                        setAddCoinsClass={setAddCoinsClass}
+                                        setClassId={setClassId}
+                                        setEditingClass={setEditingClass}
+                                        setClassFormData={setClassFormData}
+                                        setShowClassForm={setShowClassForm}
+                                        isSelected={isSelected}
+                                    />
+                                )
                             })}
                         </div>
                     </div>
@@ -120,91 +123,17 @@ const ClassPage = () => {
                             ) : (
                                 <div className="space-y-2 max-h-[calc(100vh-300px)] overflow-y-auto pr-2">
                                     {selectedClass.students.map((student) => (
-                                        <Card key={student._id} className="p-4 hover:shadow-md transition-all">
-                                            <div className="flex items-start justify-between gap-4">
-                                                <div className="flex-1 min-w-0">
-                                                    <div className="flex items-center gap-2">
-                                                        <h3 className="font-semibold text-foreground">{student.fullName}</h3>
-                                                    </div>
-                                                    <div className="grid grid-cols-2">
-                                                        <div className="flex flex-col gap-1 mt-2 text-sm text-muted-foreground">
-                                                            <span className="flex items-center gap-1.5">
-                                                                <ShieldUser className="h-3.5 w-3.5" />
-                                                                Login: <span className="font-semibold">{student.login}</span>
-                                                            </span>
-                                                            <span className="flex items-center gap-1.5">
-                                                                <HandCoins className="h-3.5 w-3.5" />
-                                                                Ball: <span className="font-semibold">{student.coins}</span>
-                                                            </span>
-                                                            {student.details.email && (
-                                                                <span className="flex items-center gap-1.5">
-                                                                    <Mail className="h-3.5 w-3.5" />
-                                                                    Email: <span className="font-semibold">{student.details.email}</span>
-                                                                </span>
-                                                            )}
-                                                        </div>
-                                                        <div className="flex flex-col gap-1 mt-2 text-sm text-muted-foreground">
-                                                            {student.details.phoneNumber && (
-                                                                <span className="flex items-center gap-0.5">
-                                                                    <Phone className="h-3.5 w-3.5" />
-                                                                    Telefon raqam:{" "}
-                                                                    <span className="font-semibold">{student.details.phoneNumber}</span>
-                                                                </span>
-                                                            )}
-                                                            {student.details.tgUserName && (
-                                                                <span className="flex items-center gap-1.5">
-                                                                    <Send className="h-3.5 w-3.5" />
-                                                                    Telegram: <span className="font-semibold">{student.details.tgUserName}</span>
-                                                                </span>
-                                                            )}
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div className="flex gap-1">
-                                                    <Button
-                                                        size="icon"
-                                                        variant="ghost"
-                                                        onClick={() => {
-                                                            setAddCoinsStudent(true)
-                                                            setStudentId(student._id)
-                                                        }}
-                                                        className="h-8 w-8 cursor-pointer"
-                                                    >
-                                                        <HandCoins className="h-4 w-4" />
-                                                    </Button>
-                                                    <Button
-                                                        size="icon"
-                                                        variant="ghost"
-                                                        onClick={() => {
-                                                            setEditingStudent(student)
-                                                            setShowStudentForm(true)
-                                                            setStudentFormData({
-                                                                fullName: student.fullName,
-                                                                login: student.login,
-                                                                password: "",
-                                                                phoneNumber: student.details.phoneNumber === null ? "" : student.details.phoneNumber,
-                                                                tgUserName: student.details.tgUserName === null ? "" : student.details.tgUserName,
-                                                                email: student.details.email === null ? "" : student.details.email
-                                                            })
-                                                        }}
-                                                        className="h-8 w-8 cursor-pointer"
-                                                    >
-                                                        <Pencil className="h-4 w-4" />
-                                                    </Button>
-                                                    <Button
-                                                        size="icon"
-                                                        variant="ghost"
-                                                        onClick={() =>
-                                                            window.confirm("Buni aniq o'chirmoqchimisiz?") && handleDeleteStudent(student._id)
-                                                        }
-                                                        disabled={deleteId === student._id && deleteStudentPending}
-                                                        className="h-8 w-8 text-destructive hover:text-destructive cursor-pointer"
-                                                    >
-                                                        <Trash2 className="h-4 w-4" />
-                                                    </Button>
-                                                </div>
-                                            </div>
-                                        </Card>
+                                        <EachStudent
+                                            key={student._id}
+                                            student={student}
+                                            selectedClass={selectedClass}
+                                            setAddCoinsStudent={setAddCoinsStudent}
+                                            setStudentFormData={setStudentFormData}
+                                            setStudentId={setStudentId}
+                                            setShowStudentForm={setShowStudentForm}
+                                            setEditingStudent={setEditingStudent}
+                                            setSelectedClass={setSelectedClass}
+                                        />
                                     ))}
                                 </div>
                             )

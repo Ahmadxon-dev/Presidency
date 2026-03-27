@@ -55,9 +55,9 @@ const AddStudentsCoinsDialog = ({ setAddCoinsStudent, studentId, setSelectedClas
                         <div className="gap-2 pt-4  ">
                             <Button
                                 className="flex-1 float-right"
-                                onClick={() => {
+                                onClick={async() => {
                                     if (addCoinsStudentDescription === "") return toast.error("Tavsif yozilishi shart")
-                                    mutationAddCoinsStudents({ userId: studentId, amount: studentAmount, description: addCoinsStudentDescription }, {
+                                    await  mutationAddCoinsStudents({ userId: studentId, amount: studentAmount, description: addCoinsStudentDescription }, {
                                         onSuccess: data=>{
                                             setSelectedClass(data.newData)
                                         }

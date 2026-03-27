@@ -3,28 +3,37 @@ import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import { toast } from "react-hot-toast"
 import { X } from "lucide-react"
-import useClass_StudentMutations from '@/hooks/useClass_StudentMutations';
+import useClass_StudentMutations from "@/hooks/useClass_StudentMutations"
 import { memo } from "react"
-const Add_edit_StudentForm = ({ editingStudent, setShowStudentForm, setSelectedClass, setEditingStudent, setStudentFormData, studentFormData, selectedClass }) => {
-    const { createStudentMutation , editStudentMutation} = useClass_StudentMutations()
-    
-    const handleAddStudent = (e) => {
+import { useQueryClient } from "@tanstack/react-query"
+const Add_edit_StudentForm = ({
+    editingStudent,
+    setShowStudentForm,
+    setSelectedClass,
+    setEditingStudent,
+    setStudentFormData,
+    studentFormData,
+    selectedClass
+}) => {
+    const { createStudentMutation, editStudentMutation } = useClass_StudentMutations()
+    const handleAddStudent = async (e) => {
         e.preventDefault()
         const newStudentData = {
             ...studentFormData,
             classId: selectedClass._id
         }
+
         const isFilled = Object.values(newStudentData).every((value) => value.trim() !== "")
         if (!isFilled) return toast.error("Barcha maydonlarni to'ldiring")
-        createStudentMutation(newStudentData, {
-            onSuccess: data=>{
+        await createStudentMutation(newStudentData, {
+            onSuccess: (data) => {               
                 setSelectedClass(data.newData)
             }
         })
         setStudentFormData({ fullName: "", login: "", password: "", classId: "", phoneNumber: null, tgUserName: null, email: null })
         setShowStudentForm(false)
     }
-    const handleEditStudent = (e) => {
+    const handleEditStudent = async (e) => {
         e.preventDefault()
         const newData = {
             fullName: studentFormData.fullName,
@@ -36,8 +45,8 @@ const Add_edit_StudentForm = ({ editingStudent, setShowStudentForm, setSelectedC
             tgUserName: studentFormData.tgUserName,
             email: studentFormData.email
         }
-        editStudentMutation(newData, {
-            onSuccess: data=>{
+        await editStudentMutation(newData, {
+            onSuccess: (data) => {
                 setSelectedClass(data.newData)
             }
         })

@@ -10,7 +10,7 @@ import NewsLoader from "@/components/news/NewsLoader"
 
 const NewsPage = () => {
     const user = useSelector((state) => state.auth.user)
-    const { data: allNews = [], isPending } = useQuery({ queryKey: ["news"], queryFn: fetchNewsData })
+    const { data: allNews, isPending } = useQuery({ queryKey: ["news"], queryFn: fetchNewsData })
     const [deleteButtonId, setDeleteButtonId] = useState("")
 
     const { deleteNews } = useNewsMutations()
@@ -22,7 +22,7 @@ const NewsPage = () => {
             setDeleteButtonId(item._id)
         }
     }, [])
-    if (isPending) <NewsLoader />
+    if (isPending) return <NewsLoader />
 
     return (
         <div className="min-h-screen bg-background">

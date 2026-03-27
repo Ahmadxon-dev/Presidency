@@ -4,7 +4,7 @@ import { addPointsStudent, createStudents, deleteStudents, editStudents } from "
 import { addPointsClass, createClasses, deleteClasses, editClasses } from "@/api/class"
 const useClass_StudentMutations = () => {
     const queryClient = useQueryClient()
-    const { mutate: deleteStudentMutation, isPending: deleteStudentPending } = useMutation({
+    const { mutateAsync: deleteStudentMutation, isPending: deleteStudentPending } = useMutation({
         mutationFn: deleteStudents,
         onMutate: () => toast.loading("O'chirilmoqda...", { id: "deleteStudentMutationPending" }),
         onError: (data) => {
@@ -67,7 +67,10 @@ const useClass_StudentMutations = () => {
             }
         }
     })
-    const { mutate: createStudentMutation } = useMutation({
+    const {
+        // mutate: createStudentMutation,
+        mutateAsync: createStudentMutation
+    } = useMutation({
         mutationFn: createStudents,
         onMutate: () => toast.loading("Yaratilmoqda...", { id: "studentMutationPending" }),
         onError: (data) => {
@@ -84,7 +87,7 @@ const useClass_StudentMutations = () => {
         }
     })
 
-    const { mutate: editStudentMutation } = useMutation({
+    const { mutateAsync: editStudentMutation } = useMutation({
         mutationFn: editStudents,
         onMutate: () => toast.loading("O'zgartirilmoqda...", { id: "editStudentMutationPending" }),
         onError: (data) => {
@@ -100,7 +103,7 @@ const useClass_StudentMutations = () => {
             }
         }
     })
-    const { mutate: mutationAddCoinsStudents } = useMutation({
+    const { mutateAsync: mutationAddCoinsStudents } = useMutation({
         mutationFn: addPointsStudent,
         onMutate: () => toast.loading("Qo'shilmoqda...", { id: "addCoinStudents" }),
         onError: (data) => {
@@ -143,8 +146,7 @@ const useClass_StudentMutations = () => {
         mutationAddCoinsStudents,
         editStudentMutation,
         editClassMutation,
-        createStudentMutation,
-
+        createStudentMutation
     }
 }
 

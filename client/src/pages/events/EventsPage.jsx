@@ -10,13 +10,12 @@ const EventsPage = () => {
     const navigate = useNavigate()
     const user = useSelector((state) => state.auth.user)
 
-    const { data: events, isPending: getEventsPending, isError } = useQuery({ queryKey: ["events"], queryFn: fetchData })
-    const { deleteEvents, mutationRegisterClass, registerClassPending, mutationRegisterStudent, registerStudentPending } = useEventMutations()
+    const { data: events, isPending: getEventsPending } = useQuery({ queryKey: ["events"], queryFn: fetchData })
 
     // const [isEditDialogOpen, setIsEditDialogOpen] = useState(false)
     // const [currentEvent, setCurrentEvent] = useState(null)
 
-    if (getEventsPending) <EventsLoadingState />
+    if (getEventsPending) return <EventsLoadingState />
 
     return (
         <div className="min-h-screen bg-background">

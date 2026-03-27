@@ -1,15 +1,15 @@
 import { memo, useState } from "react"
-import { Card } from '@/components/ui/card';
-import { Users } from 'lucide-react';
-import { ShieldUser } from 'lucide-react';
-import { HandCoins } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Pencil } from 'lucide-react';
-import { Trash2 } from 'lucide-react';
-import useClass_StudentMutations from "@/hooks/useClass_StudentMutations";
+import { Card } from "@/components/ui/card"
+import { Users } from "lucide-react"
+import { ShieldUser } from "lucide-react"
+import { HandCoins } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { Pencil } from "lucide-react"
+import { Trash2 } from "lucide-react"
+import useClass_StudentMutations from "@/hooks/useClass_StudentMutations"
 
-const EachClass = ({ cls, setSelectedClass, setAddCoinsClass , setClassId, setEditingClass, setClassFormData, setShowClassForm, isSelected,  }) => {
-    const {deleteClassMutation, deleteClassPending } = useClass_StudentMutations()
+const EachClass = ({ cls, setSelectedClass, setAddCoinsClass, setClassId, setEditingClass, setClassFormData, setShowClassForm, isSelected }) => {
+    const { deleteClassMutation, deleteClassPending } = useClass_StudentMutations()
     const [deleteId, setDeleteId] = useState(null)
 
     const handleDeleteClass = (classId) => {
