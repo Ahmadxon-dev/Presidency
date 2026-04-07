@@ -1,24 +1,23 @@
-import { useQuery } from '@tanstack/react-query'
-import React, { useEffect } from 'react'
-import { useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
-import { getUserCoins } from '../../api/shop'
-import TransferButton from '../../components/shared/TransferButton'
-import { getOneClass } from '../../api/class'
-import MyClassSkeleton from './../../components/shared/skeletons/myclassSkeleton';
-
+import { useQuery } from "@tanstack/react-query"
+import React, { useEffect } from "react"
+import { useSelector } from "react-redux"
+import { useNavigate } from "react-router-dom"
+import { getUserCoins } from "../../api/shop"
+import TransferButton from "../../components/shared/TransferButton"
+import { getOneClass } from "../../api/class"
+import MyClassSkeleton from "./../../components/shared/skeletons/myclassSkeleton"
 
 const MyClassPage = () => {
     const user = useSelector((state) => state.auth.user)
-    const { data, isPending } = useQuery({ queryKey: ['coins'], queryFn: () => getUserCoins(user.id) })
+    const { data, isPending } = useQuery({ queryKey: ["coins"], queryFn: () => getUserCoins(user.id) })
     const { data: classData, isPending: isClassLoading } = useQuery({
-        queryKey: ['classes', user.classId],
+        queryKey: ["classes", user.classId],
         queryFn: () => getOneClass(user.classId)
     })
     const navigate = useNavigate()
 
     useEffect(() => {
-        if (user.role !== 'student') navigate('/')
+        if (user.role !== "student") navigate("/")
     }, [user])
 
     if (isPending || isClassLoading) {
@@ -32,7 +31,7 @@ const MyClassPage = () => {
                         <h1 className="text-4xl font-bold text-foreground mb-2">Mening sinfim</h1>
                         <h1 className="text-xl font-bold text-foreground">Ballarim: {data.coins}</h1>
                     </div>
-                    {user.role === 'student' && <TransferButton />}
+                    {user.role === "student" && <TransferButton />}
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     {/* Grade Card */}
@@ -51,9 +50,7 @@ const MyClassPage = () => {
                         <div className="flex items-center justify-between">
                             <div>
                                 <p className="text-slate-600 dark:text-slate-400 text-sm font-medium">Class Points</p>
-                                <p className="text-5xl font-bold text-emerald-600 dark:text-emerald-400 mt-2">
-                                    {classData.coins}
-                                </p>
+                                <p className="text-5xl font-bold text-emerald-600 dark:text-emerald-400 mt-2">{classData.coins}</p>
                             </div>
                             <div className="text-6xl font-light text-emerald-100 dark:text-emerald-900">⭐</div>
                         </div>
@@ -75,9 +72,7 @@ const MyClassPage = () => {
                             >
                                 <div className="flex items-start justify-between gap-3">
                                     <div className="flex-1 min-w-0">
-                                        <h3 className="font-semibold text-slate-900 dark:text-slate-50 truncate text-lg">
-                                            {classmate.fullName}
-                                        </h3>
+                                        <h3 className="font-semibold text-slate-900 dark:text-slate-50 truncate text-lg">{classmate.fullName}</h3>
                                     </div>
                                 </div>
                             </div>

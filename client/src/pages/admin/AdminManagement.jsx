@@ -47,7 +47,7 @@ const AdminManagement = () => {
             <div className="container mx-auto px-4 py-8">
                 <div className="w-full flex items-center justify-between mx-auto mb-8 ">
                     <h1 className="text-4xl font-bold  text-foreground mb-2">Adminlarni boshqaruvi</h1>
-                    <Button onClick={handleAddOpen}>Qo'shish</Button>
+                    <Button onClick={handleAddOpen}>{"Qo'shish"}</Button>
                 </div>
                 <AdminDialog
                     open={open}

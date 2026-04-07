@@ -1,4 +1,3 @@
-import React from 'react'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
@@ -28,7 +27,7 @@ const LoginPage = () => {
             password: ''
         }
     })
-
+   
     const onSubmit = async (data) => {
         const toastId = toast.loading('Tekshirilmoqda...')
         await fetch(`${import.meta.env.VITE_SERVER}/auth/signin/all`, {

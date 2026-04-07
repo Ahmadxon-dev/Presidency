@@ -1,57 +1,32 @@
-import React from 'react'
-import { Award, User, LogIn, Lock } from 'lucide-react'
-import { useState } from 'react'
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { getUserCoins } from '../../api/shop'
-import { useSelector } from 'react-redux'
-import { Button } from '@/components/ui/button'
-import { Users, BookOpen } from 'lucide-react'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog'
-import { editPassword, editPasswordClass } from '../../api/profile'
-import toast from 'react-hot-toast'
+import { User, Lock } from "lucide-react"
+import { memo, useState } from "react"
+import { useSelector } from "react-redux"
+import { Button } from "@/components/ui/button"
+import { BookOpen } from "lucide-react"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog"
+import useSettingsMutations from "@/hooks/useSettingsMutations"
 
 const SettingsPage = () => {
     const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false)
     const user = useSelector((state) => state.auth.user)
-    const [oldPassword, setOldPassword] = useState('')
-    const [newPassword, setNewPassword] = useState('')
-    const { mutate: mutateUserPassword } = useMutation({
-        mutationFn: editPassword,
-        onMutate: () => toast.loading("O'zgartirilmoqda...", { id: 'editPasswordID' }),
-        onSuccess: (data) => {
-            if (data.error) {
-                toast.error(data.error, { id: 'editPasswordID' })
-            } else {
-                toast.success(data.msg, { id: 'editPasswordID' })
-            }
-        },
-        onError: (data) => toast.error(data.error, { id: 'editPasswordID' })
-    })
-    const { mutate: mutateClassPassword } = useMutation({
-        mutationFn: editPasswordClass,
-        onMutate: () => toast.loading("O'zgartirilmoqda...", { id: 'editClassPasswordID' }),
-        onSuccess: (data) => {
-            if (data.error) {
-                toast.error(data.error, { id: 'editClassPasswordID' })
-            } else {
-                toast.success(data.msg, { id: 'editClassPasswordID' })
-            }
-        },
-        onError: (data) => toast.error(data.error, { id: 'editClassPasswordID' })
-    })
+    const [oldPassword, setOldPassword] = useState("")
+    const [newPassword, setNewPassword] = useState("")
+    
+    const { mutateClassPassword, mutateUserPassword } = useSettingsMutations()
+
     const handleChangePasswordUser = () => {
         mutateUserPassword({ studentId: user.id, newPassword, oldPassword })
         setIsPasswordModalOpen(false)
-        setOldPassword('')
-        setNewPassword('')
+        setOldPassword("")
+        setNewPassword("")
     }
     const handleChangePasswordClass = () => {
         mutateClassPassword({ classId: user.id, newPassword, oldPassword })
         setIsPasswordModalOpen(false)
-        setOldPassword('')
-        setNewPassword('')
+        setOldPassword("")
+        setNewPassword("")
     }
 
     return (
@@ -60,7 +35,7 @@ const SettingsPage = () => {
                 <div className="w-full max-w-2xl mx-auto">
                     {/* Main Card */}
 
-                    {user.role !== 'class' ? (
+                    {user.role !== "class" ? (
                         <div className="bg-card border border-border rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-shadow duration-300">
                             {/* Header Background */}
                             <div className="h-32 bg-gradient-to-r from-primary/50 via-accent to-primary/50 relative overflow-hidden">
@@ -86,7 +61,7 @@ const SettingsPage = () => {
                                         className="bg-primary  text-primary-foreground font-semibold py-3 rounded-xl hover:shadow-lg transition-all duration-300 hover:scale-105 flex items-center justify-center gap-2 mx-auto w-full cursor-pointer"
                                     >
                                         <Lock size={20} />
-                                        Parolni o'zgartirish
+                                        {"Parolni o'zgartirish"}
                                     </button>
                                 </div>
                             </div>
@@ -111,15 +86,13 @@ const SettingsPage = () => {
                                     <h1 className="text-5xl font-bold text-foreground text-center mb-2">{user.name}</h1>
                                 </div>
 
-                                
-
                                 <div className="flex w-full">
                                     <button
                                         onClick={() => setIsPasswordModalOpen(true)}
                                         className="bg-primary  text-primary-foreground font-semibold py-3 rounded-xl hover:shadow-lg transition-all duration-300 hover:scale-105 flex items-center justify-center gap-2 mx-auto w-full cursor-pointer"
                                     >
                                         <Lock size={20} />
-                                        Parolni o'zgartirish
+                                        {"Parolni o'zgartirish"}
                                     </button>
                                 </div>
                             </div>
@@ -130,38 +103,28 @@ const SettingsPage = () => {
                         open={isPasswordModalOpen}
                         onOpenChange={() => {
                             setIsPasswordModalOpen(!isPasswordModalOpen)
-                            setNewPassword('')
-                            setOldPassword('')
+                            setNewPassword("")
+                            setOldPassword("")
                         }}
                     >
                         <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
                             <DialogHeader>
-                                <DialogTitle>Parolni o'zgartirish</DialogTitle>
+                                <DialogTitle>{"Parolni o'zgartirish"}</DialogTitle>
                                 <DialogDescription></DialogDescription>
                             </DialogHeader>
                             <div className="grid gap-4 py-4">
                                 <div className="grid gap-2">
                                     <Label htmlFor="add-eventName">Joriy parol</Label>
-                                    <Input
-                                        id="add-eventName"
-                                        value={oldPassword}
-                                        onChange={(e) => setOldPassword(e.target.value)}
-                                        required
-                                    />
+                                    <Input id="add-eventName" value={oldPassword} onChange={(e) => setOldPassword(e.target.value)} required />
                                 </div>
                                 <div className="grid gap-2">
                                     <Label htmlFor="add-eventName">Yangi parol</Label>
-                                    <Input
-                                        id="add-eventName"
-                                        value={newPassword}
-                                        onChange={(e) => setNewPassword(e.target.value)}
-                                        required
-                                    />
+                                    <Input id="add-eventName" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} required />
                                 </div>
                             </div>
                             <DialogFooter>
-                                <Button onClick={user.role === 'class' ? handleChangePasswordClass : handleChangePasswordUser}>
-                                    Parolni o'zgartirish
+                                <Button onClick={user.role === "class" ? handleChangePasswordClass : handleChangePasswordUser}>
+                                    {"Parolni o'zgartirish"}
                                 </Button>
                             </DialogFooter>
                         </DialogContent>
@@ -172,4 +135,4 @@ const SettingsPage = () => {
     )
 }
 
-export default SettingsPage
+export default memo(SettingsPage)

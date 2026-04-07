@@ -145,7 +145,7 @@ const MainRequestPointsPage = () => {
                             {!isAdmin && (
                                 <Button onClick={() => navigate("/request-points")} className={`cursor-pointer`}>
                                     <Plus className="mr-2 h-4 w-4" />
-                                    So'rov yaratish
+                                    {"So'rov yaratish"}
                                 </Button>
                             )}
                             {isAdmin && (
@@ -154,7 +154,7 @@ const MainRequestPointsPage = () => {
                                     disabled={requestDeleteMutation.isPending || requests.length === 0}
                                     className={`cursor-pointer`}
                                 >
-                                    Barcha so'rovlarni o'chirish
+                                    {"Barcha so'rovlarni o'chirish"}
                                 </Button>
                             )}
                         </div>

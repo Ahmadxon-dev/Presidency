@@ -1,5 +1,5 @@
-import React, { useState } from "react"
-import { Award, User, LogIn, Lock, Send, Mail, Phone, X, Trash2, Pencil } from "lucide-react"
+import { useState } from "react"
+import { Award, User, LogIn, Send, Mail, Phone, X, Trash2, Pencil } from "lucide-react"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { getUserCoins } from "../../api/shop"
 import { useSelector } from "react-redux"

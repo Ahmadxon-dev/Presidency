@@ -237,7 +237,7 @@ const CybersportRoomPage = ({ user }) => {
                 {cybersportRooms.length !== 0 ?  cybersportRooms.map((room) => (
                     <Card key={room._id} className="bg-card border-border hover:border-primary transition-colors">
                         <CardHeader>
-                            <CardTitle className="text-card-foreground">O'yin sessiyasi</CardTitle>
+                            <CardTitle className="text-card-foreground">{"O'yin sessiyasi"}</CardTitle>
                             <CardDescription className="text-muted-foreground">Kibersport xonasi</CardDescription>
                         </CardHeader>
                         <CardContent className="space-y-2">
@@ -267,7 +267,7 @@ const CybersportRoomPage = ({ user }) => {
                             >
                                 <Users className="h-4 w-4" />
                                 <span className={`${user.role === "admin" && "underline cursor-pointer"}`}>
-                                    {room.registeredUsers.length} ro'yxatdan o'tgan
+                                    {room.registeredUsers.length} {"ro'yxatdan o'tgan"}
                                 </span>
                             </div>
                             <div className="text-lg font-bold text-primary">{room.points} ball</div>
@@ -282,7 +282,7 @@ const CybersportRoomPage = ({ user }) => {
                                     className="w-full"
                                 >
                                     <Trash2 className="h-4 w-4 mr-2" />
-                                    O'chirish
+                                    O&apos;chirish
                                 </Button>
                             </CardFooter>
                         )}
@@ -299,7 +299,7 @@ const CybersportRoomPage = ({ user }) => {
                                         }}
                                         disabled={registerPending && deleteButtonId === room._id}
                                     >
-                                        Ro'yxatdan o'tish
+                                       {"Ro'yxatdan o'tish"}
                                     </Button>
                                 </CardFooter>
                             ) : (

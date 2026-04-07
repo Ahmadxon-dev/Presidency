@@ -5,7 +5,7 @@ import { memo } from "react"
 
 const TransactionHeader = ({ setFiltered, filtered, userRole, onDeleteAll, deletePending, hasTransactions }) => {
     return (
-        <div className="w-full flex items-center justify-between mx-auto mb-8 ">
+        <div className="w-full flex items-center justify-between mb-8 ">
             <h1 className="text-4xl font-bold  text-foreground mb-2">Tranzaksiyalar</h1>
             {userRole === "admin" && (
                 <div className="flex flex-col lg:flex-row gap-2  ">
